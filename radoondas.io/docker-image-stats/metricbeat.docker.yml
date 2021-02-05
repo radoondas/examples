@@ -1,0 +1,64 @@
+metricbeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    # Reload module configs as they change:
+    reload.enabled: false
+
+setup.template.settings:
+  index.number_of_shards: 1
+  index.codec: best_compression
+
+# Disable ILM for this index
+setup.ilm.enabled: false
+
+metricbeat.modules:
+# enable and configure http module
+- module: http
+  enabled: true
+  metricsets:
+    - json
+  period: 10m
+  hosts:
+    - "https://hub.docker.com/v2/repositories/radoondas/owmbeat"
+    - "https://hub.docker.com/v2/repositories/radoondas/earthquakebeat"
+    - "https://hub.docker.com/v2/repositories/radoondas/netatmobeat"
+    - "https://hub.docker.com/v2/repositories/radoondas/safecastbeat"
+  namespace: "docker_hub"
+  path: "/"
+  method: "GET"
+- module: http
+  enabled: true
+  metricsets:
+    - json
+  period: 5m
+  hosts:
+    - "https://hub.docker.com/v2/repositories/library/httpd"
+    - "https://hub.docker.com/v2/repositories/library/mysql"
+  namespace: "docker_hub"
+  path: "/"
+  method: "GET"
+
+output.elasticsearch:
+  hosts: 'localhost:9200'
+  index: docker-pulls-%{+yyyy}
+  pipeline: docker-hub-pulls
+
+setup.template:
+  name: "docker-pulls"
+  pattern: "docker-pulls-*"
+
+setup.template.overwrite: true
+setup.template.append_fields:
+  - name: http.docker_hub.namespace
+    type: keyword
+  - name: http.docker_hub.name
+    type: keyword
+  - name: http.docker_hub.collaborator_count
+    type: long
+  - name: http.docker_hub.pull_count
+    type: long
+  - name: http.docker_hub.star_count
+    type: long
+
+#output.console:
+#  pretty: true

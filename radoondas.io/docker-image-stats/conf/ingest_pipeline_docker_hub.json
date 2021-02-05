@@ -1,0 +1,37 @@
+{
+  "processors": [
+    {
+      "remove": {
+        "field": [
+          "ecs",
+          "metricset",
+          "agent",
+          "host",
+          "event",
+          "service"
+        ],
+        "description": "Removes unnecessary general fields."
+      }
+    },
+    {
+      "remove": {
+        "field": [
+          "http.docker_hub.permissions",
+          "http.docker_hub.last_updated",
+          "http.docker_hub.user",
+          "http.docker_hub.is_private",
+          "http.docker_hub.is_automated",
+          "http.docker_hub.is_migrated",
+          "http.docker_hub.can_edit",
+          "http.docker_hub.description",
+          "http.docker_hub.repository_type",
+          "http.docker_hub.status",
+          "http.docker_hub.full_description",
+          "http.docker_hub.has_starred"
+        ],
+        "ignore_failure": true,
+        "description": "Removes unnecessary docker hub event fields."
+      }
+    }
+  ]
+}
