@@ -1,0 +1,23 @@
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+filebeat.inputs:
+  - type: log
+    paths:
+      - /tmp/1950-2019_actual_tornadoes.csv
+
+output.elasticsearch:
+  hosts: '127.0.0.1:9200'
+  index: 'historical-tornadoes'
+  pipeline: 'historical-tornadoes'
+
+setup.ilm.enabled: false
+setup:
+    template:
+      enabled: true
+      type: legacy
+      name: historical-tornadoes
+      pattern: historical-tornadoes
+      bulk_max_size: 2048

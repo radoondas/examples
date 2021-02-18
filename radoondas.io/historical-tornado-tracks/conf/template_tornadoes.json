@@ -1,0 +1,103 @@
+{
+  "index_patterns": [
+    "historical-tornadoes*"
+  ],
+  "settings": {
+    "index": {
+      "number_of_shards": 1,
+      "number_of_replicas": 1,
+      "final_pipeline": "historical-tornadoes"
+    }
+  },
+  "mappings": {
+    "properties": {
+      "timestamp": {
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss"
+      },
+      "closs": {
+        "type": "float"
+      },
+      "loss": {
+        "type": "float"
+      },
+      "fat": {
+        "type": "short"
+      },
+      "fc": {
+        "type": "short"
+      },
+      "inj": {
+        "type": "short"
+      },
+      "len": {
+        "type": "half_float"
+      },
+      "mag": {
+        "type": "short"
+      },
+      "message": {
+        "type": "text",
+        "norms": false
+      },
+      "om": {
+        "type": "integer"
+      },
+      "path": {
+        "type": "text",
+        "norms": false,
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "st": {
+        "type": "keyword"
+      },
+      "stf": {
+        "type": "short"
+      },
+      "stn": {
+        "type": "short"
+      },
+      "tz": {
+        "type": "short"
+      },
+      "wid": {
+        "type": "short"
+      },
+      "slocation": {
+        "type": "geo_point"
+      },
+      "elocation": {
+        "type": "geo_point"
+      },
+      "tpath": {
+        "type": "geo_shape"
+      },
+      "ns": {
+        "type": "short"
+      },
+      "sn": {
+        "type": "short"
+      },
+      "sg": {
+        "type": "short"
+      },
+      "f1": {
+        "type": "short"
+      },
+      "f2": {
+        "type": "short"
+      },
+      "f3": {
+        "type": "short"
+      },
+      "f4": {
+        "type": "short"
+      }
+    }
+  }
+}

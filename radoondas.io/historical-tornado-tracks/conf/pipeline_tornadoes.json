@@ -1,0 +1,122 @@
+{
+  "description": "Pipeline for processing historical tornadoes tracks from CSV formatted data source. https://www.spc.noaa.gov/wcm/#data",
+  "processors": [
+    {
+      "csv": {
+        "description": "Initial parsing of the data line in CSV format.",
+        "field": "message",
+        "separator": ",",
+        "target_fields": [
+          "om",
+          "yr",
+          "mo",
+          "dy",
+          "date",
+          "time",
+          "tz",
+          "st",
+          "stf",
+          "stn",
+          "mag",
+          "inj",
+          "fat",
+          "loss",
+          "closs",
+          "slat",
+          "slon",
+          "elat",
+          "elon",
+          "len",
+          "wid",
+          "ns",
+          "sn",
+          "sg",
+          "f1",
+          "f2",
+          "f3",
+          "f4",
+          "fc"
+        ]
+      }
+    },
+    {
+      "set": {
+        "description": "Creates a timestamp from 'date' and 'time' fields.",
+        "field": "timestamp",
+        "value": "{{date}} {{time}}"
+      }
+    },
+    {
+      "set": {
+        "description": "Creates the starting GeoPoint from 'slat' (latitude) and 'slon' (longitude) fields.",
+        "field": "slocation",
+        "value": "{{slat}},{{slon}}"
+      }
+    },
+    {
+      "set": {
+        "description": "If the value is not 0.0 in 'elat' and 'elon' fields. Creates the ending GeoPoint from 'elat' (latitude) and 'elon' (longitude) fields.",
+        "if": "ctx.elon != '0.0' || ctx.elat != '0.0'",
+        "field": "elocation",
+        "value": "{{elat}},{{elon}}"
+      }
+    },
+    {
+      "set": {
+        "description": "If the value is not 0.0 in 'elat' and 'elon' fields. Creates 'tpath.type' field for the 'linestring' GeoShape.",
+        "if": "ctx.elon != '0.0' || ctx.elat != '0.0'",
+        "field": "tpath.type",
+        "value": "linestring"
+      }
+    },
+    {
+      "set": {
+        "description": "If the value is not 0.0 in 'elat' and 'elon' fields. Creates the coordinates field for linestring between geopoints ['slat','slon'] and ['elat',  'elon'] fields.",
+        "if": "ctx.elon != '0.0' || ctx.elat != '0.0'",
+        "field": "tpath.coordinates",
+        "value": [
+          [
+            "{{slon}}",
+            "{{slat}}"
+          ],
+          [
+            "{{elon}}",
+            "{{elat}}"
+          ]
+        ]
+      }
+    },
+    {
+      "convert": {
+        "description": "Converts string representation of numbers to float.",
+        "if": "ctx.elon != '0.0' || ctx.elat != '0.0'",
+        "field": "tpath.coordinates.0",
+        "type": "float"
+      }
+    },
+    {
+      "convert": {
+        "description": "Converts string representation of numbers to float.",
+        "if": "ctx.elon != '0.0' || ctx.elat != '0.0'",
+        "field": "tpath.coordinates.1",
+        "type": "float"
+      }
+    },
+    {
+      "remove": {
+        "field": [
+          "date",
+          "time",
+          "yr",
+          "mo",
+          "dy",
+          "slon",
+          "slat",
+          "elon",
+          "elat",
+          "message"
+        ]
+      }
+    }
+  ]
+}
