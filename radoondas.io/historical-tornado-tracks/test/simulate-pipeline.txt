@@ -50,14 +50,14 @@ POST /_ingest/pipeline/_simulate
       },
       {
         "set": {
-          "description": "Creates the starting GeoPoint from 'slat' (latitude) and 'slon' (longitude) fields.",
+          "description": "Creates the starting GeoPoint from 'slat' (latitude) or 'slon' (longitude) fields.",
           "field": "slocation",
           "value": "{{slat}},{{slon}}"
         }
       },
       {
         "set": {
-          "description": "If the value is not 0.0 in 'elat' and 'elon' fields. Creates the ending GeoPoint from 'elat' (latitude) and 'elon' (longitude) fields.",
+          "description": "If the value is not 0.0 in 'elat' or 'elon' fields. Creates the ending GeoPoint from 'elat' (latitude) and 'elon' (longitude) fields.",
           "if": "ctx.elon != '0.0' || ctx.elat != '0.0'",
           "field": "elocation",
           "value": "{{elat}},{{elon}}"
@@ -65,7 +65,7 @@ POST /_ingest/pipeline/_simulate
       },
       {
         "set": {
-          "description": "If the value is not 0.0 in 'elat' and 'elon' fields. Creates 'tpath.type' field for the 'linestring' GeoShape.",
+          "description": "If the value is not 0.0 in 'elat' or 'elon' fields. Creates 'tpath.type' field for the 'linestring' GeoShape.",
           "if": "ctx.elon != '0.0' || ctx.elat != '0.0'",
           "field": "tpath.type",
           "value": "linestring"
@@ -73,7 +73,7 @@ POST /_ingest/pipeline/_simulate
       },
       {
         "set": {
-          "description": "If the value is not 0.0 in 'elat' and 'elon' fields. Creates the coordinates field for linestring between geopoints ['slat','slon'] and ['elat',  'elon'] fields.",
+          "description": "If the value is not 0.0 in 'elat' or 'elon' fields. Creates the coordinates field for linestring between geopoints ['slat','slon'] and ['elat',  'elon'] fields.",
           "if": "ctx.elon != '0.0' || ctx.elat != '0.0'",
           "field": "tpath.coordinates",
           "value": [
