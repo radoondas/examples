@@ -114,7 +114,9 @@
           "slat",
           "elon",
           "elat",
-          "message"
+          "message",
+          "agent",
+          "log"
         ]
       }
     }
