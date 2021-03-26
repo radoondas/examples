@@ -5,8 +5,7 @@
   "settings": {
     "index": {
       "number_of_shards": 1,
-      "number_of_replicas": 1,
-      "final_pipeline": "historical-tornadoes"
+      "number_of_replicas": 1
     }
   },
   "mappings": {
