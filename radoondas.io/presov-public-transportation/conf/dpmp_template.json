@@ -1,0 +1,92 @@
+{
+  "index_patterns": ["dpmp*"],
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  },
+  "mappings": {
+    "properties" : {
+      "@timestamp" : {
+        "type" : "date"
+      },
+      "bus_stop_name_1" : {
+        "type" : "text",
+        "fields" : {
+          "keyword" : {
+            "type" : "keyword",
+            "ignore_above" : 256
+          }
+        }
+      },
+      "bus_stop_name_2" : {
+        "type" : "text",
+        "fields" : {
+          "keyword" : {
+            "type" : "keyword",
+            "ignore_above" : 256
+          }
+        }
+      },
+      "bus_stop_num_1" : {
+        "type" : "short"
+      },
+      "bus_stop_num_2" : {
+        "type" : "short"
+      },
+      "bus_stop_order_num" : {
+        "type" : "short"
+      },
+      "bus_stop_sub_num_1" : {
+        "type" : "short"
+      },
+      "bus_stop_sub_num_2" : {
+        "type" : "short"
+      },
+      "date_time" : {
+        "type" : "text",
+        "fields" : {
+          "keyword" : {
+            "type" : "keyword",
+            "ignore_above" : 256
+          }
+        }
+      },
+      "date_time2" : {
+        "type" : "date"
+      },
+      "direction" : {
+        "type" : "keyword"
+      },
+      "host" : {
+        "type" : "keyword"
+      },
+      "location" : {
+        "type" : "geo_point"
+      },
+      "message" : {
+        "type" : "text"
+      },
+      "path" : {
+        "type" : "text"
+      },
+      "planned_road" : {
+        "type" : "integer"
+      },
+      "planned_start" : {
+        "type" : "text"
+      },
+      "real_road" : {
+        "type" : "integer"
+      },
+      "route_number" : {
+        "type" : "keyword"
+      },
+      "variation" : {
+        "type" : "integer"
+      },
+      "vehicle_number" : {
+        "type" : "short"
+      }
+    }
+  }
+}
